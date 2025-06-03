@@ -87,11 +87,3 @@ Sistema de gerenciamento de jogos, usuários e relacionamentos entre eles, utili
 - **SQL Server** ou outro banco relacional
 
 ---
-
-## ⚙️ **Como rodar o projeto?**
-
-1. Clone o repositório:
-
-```bash
-[git clone https://github.com/seuusuario/FiapCloudGames.git](https://github.com/andretestai/FiapCloudGames.git)
-cd FiapCloudGames
