@@ -263,7 +263,7 @@ namespace FiapCloudGames.Controllers
         /// </remarks>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         [Authorize(Policy = "Admin")]
         public IActionResult Deletar([FromRoute] int id)
         {
