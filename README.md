@@ -1,6 +1,5 @@
 # Gerar o arquivo README.md com o conteúdo formatado
 
-readme_content = """
 # 🎮 FiapCloudGames
 
 Sistema de gerenciamento de jogos, usuários e relacionamentos entre eles, utilizando ASP.NET Core com arquitetura em camadas.
