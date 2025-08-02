@@ -28,7 +28,7 @@ jobs:
         docker push ${{ secrets.DOCKER_USERNAME }}/fiap-cloud-games:latest
 
     - name: Deploy no azure
-      uses: azure/webapps-deploy@v2
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'FiapCloudGames'
         publish-profile: '${{ secrets.AZURE_PROFILE }}'
