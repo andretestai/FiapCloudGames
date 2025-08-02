@@ -31,7 +31,7 @@ jobs:
       uses: azure/webapps-deploy@v3
       with:
         app-name: 'FiapCloudGames'
-        publish-profile: '${{ secrets.AZURE_PROFILE }}'
+        publish-profile: '${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}'
         package: '${{ secrets.DOCKER_USERNAME }}/fiap-cloud-games:latest'
     
           
