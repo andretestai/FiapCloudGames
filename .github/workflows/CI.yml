@@ -1,0 +1,29 @@
+name: Continuos Integration
+
+on:
+  push:
+    branches:
+      - '**'
+env:
+  DOTNET_VERSION: "8.x"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: 'actions/checkout@v2'
+
+      - name: Setup do .Net
+        uses: 'actions/setup-dotnet@v2'
+        with:
+          dotnet-version : ${{env.DOTNET_VERSION}}
+
+      - name: Restaurar o .NET
+        run: dotnet restore
+
+      - name: Buildar o .NEt
+        run: dotnet build
+
+      - name: Rodar os Testes unitarios
+        run: dotnet test
