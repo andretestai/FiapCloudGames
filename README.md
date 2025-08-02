@@ -41,6 +41,7 @@ Sistema de gerenciamento de jogos, usuários e relacionamentos entre eles, utili
 
 ---
 
+
 ### 📌 **Jogo**
 
 | Método | Endpoint       | Descrição                        |
