@@ -21,17 +21,17 @@ jobs:
     
     - name: Build da Imagem do Docker
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/fiap-cloud-games:latest .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/fiap-cloud-games:${GITHUB_SHA::7} .
 
-    - name: Push para o Docker Hub
+    - name: Push da Imagem para o Docker Hub
       run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/fiap-cloud-games:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/fiap-cloud-games:${GITHUB_SHA::7}
 
-    - name: Deploy no azure
+    - name: Deploy no Azure
       uses: azure/webapps-deploy@v3
       with:
         app-name: 'FiapCloudGames'
-        publish-profile: '${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}'
-        images: '${{ secrets.DOCKER_USERNAME }}/fiap-cloud-games:latest'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        images: '${{ secrets.DOCKER_USERNAME }}/fiap-cloud-games:${{GITHUB_SHA::7}}'
     
           
