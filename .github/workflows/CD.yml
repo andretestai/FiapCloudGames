@@ -18,8 +18,8 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    
-    - name: Build da Imagem do Docker
+
+    - name: Build da Imagem do Docker com commit SHA
       run: |
         docker build -t ${{ secrets.DOCKER_USERNAME }}/fiap-cloud-games:${GITHUB_SHA::7} .
 
@@ -31,7 +31,5 @@ jobs:
       uses: azure/webapps-deploy@v3
       with:
         app-name: 'FiapCloudGames'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        publish-profile: '${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}'
         images: '${{ secrets.DOCKER_USERNAME }}/fiap-cloud-games:${{GITHUB_SHA::7}}'
-    
-          
