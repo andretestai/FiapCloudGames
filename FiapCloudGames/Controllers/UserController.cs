@@ -393,5 +393,9 @@ namespace FiapCloudGames.Controllers
             }
         }
 
+        [HttpGet("Ambiente")]
+        public IActionResult Ambiente() =>
+            Ok("Teste da api");
+
     }
 }
