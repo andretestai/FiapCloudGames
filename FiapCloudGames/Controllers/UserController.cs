@@ -6,8 +6,11 @@ using Infrastructure.Logs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Client;
 using Services.Services.Validator;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Json;
 
 namespace FiapCloudGames.Controllers
 {
@@ -396,6 +399,59 @@ namespace FiapCloudGames.Controllers
         [HttpGet("Ambiente")]
         public IActionResult Ambiente() =>
             Ok("Teste da API");
+
+        [HttpPost("bulk")]
+        public async Task<IActionResult> CadastrarEmMassa(List<UserInsert> users)
+        {
+            try
+            {
+                var factory = new ConnectionFactory
+                {
+                    HostName = "rabbitmq"
+                };
+
+                await using var connection = await factory.CreateConnectionAsync();
+                await using var channel = await connection.CreateChannelAsync();
+
+                await channel.QueueDeclareAsync(
+                    queue: "fiap-events",
+                    durable: false,
+                    exclusive: false,
+                    autoDelete: false,
+                    arguments: null
+                );
+
+                foreach (var user in users)
+                {
+                    var validator = new UserValidator();
+                    var result = validator.Validate(user);
+
+                    if (!result.IsValid)
+                    {
+                        Console.WriteLine($"❌ Usuário inválido: {user.Email}");
+                        continue;
+                    }
+
+                    var body = Encoding.UTF8.GetBytes(
+                        JsonSerializer.Serialize(user)
+                    );
+
+                    await channel.BasicPublishAsync(
+                        exchange: "",
+                        routingKey: "fiap-events",
+                        mandatory: false,
+                        body: new ReadOnlyMemory<byte>(body)
+                    );
+
+                }
+
+                return Ok("Usuários enviados para processamento assíncrono");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }
